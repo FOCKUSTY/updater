@@ -1,0 +1,28 @@
+{
+  "name": "updater",
+  "version": "0.0.1",
+  "description": "auto updater for your library",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "auto",
+    "updater",
+    "update",
+    "helper"
+  ],
+  "author": "FOCKUSTY",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "nodemon": "^3.1.9",
+    "prettier": "^3.4.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.2"
+  },
+  "dependencies": {
+    "fock-logger": "^2.0.5",
+    "node": "^23.5.0"
+  }
+}
