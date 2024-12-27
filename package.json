@@ -1,5 +1,5 @@
 {
-  "name": "updater",
+  "name": "fock-updater",
   "version": "0.0.1",
   "description": "auto updater for your library",
   "main": "index.js",
@@ -22,7 +22,7 @@
     "typescript": "^5.7.2"
   },
   "dependencies": {
-    "fock-logger": "^2.0.5",
-    "node": "^23.5.0"
+    "node": "^23.5.0",
+    "npm-api": "^1.0.1"
   }
 }
