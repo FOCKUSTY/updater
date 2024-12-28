@@ -1,54 +1,62 @@
-import NpmApi from "npm-api";
-import Repo from "npm-api/lib/models/repo";
-
 import type {
     Settings,
     SettingsKeys
 } from "./types.config";
 
-const npm = new NpmApi();
+import path from "path";
+import fs from "fs";
 
 class Validator {
     private readonly _config: Settings;
 
     public constructor(config: Settings) {
         this._config = config;
-    
-        this.init();
     }
 
-    private Error(text: string, key: SettingsKeys, err?: any) {
+    private Error(key: SettingsKeys, data: { text?: string, error?: any}) {
         const value = this._config[key];
 
-        throw new Error(`Error in config at "${key}". Your value: "${value}"\n${text}${err ? `\n${err}` : ""}`);
+        const text = data.text ? `\n${data.text}` : "";
+        const err = data.error ? `\n${data.error}` : "";
+
+        throw new Error(`Error in config at "${key}". Your value: "${value}"${text}${err}`);
     }
 
     private async LinkValidator() {
         try {
-            const res = await fetch(`https://registry.npmjs.org/${this._config.name}`);
-            const repo = await res.json(); 
-            const { version } = await new Repo(this._config.name).version("latest");
+            console.log("link validating...");
 
-            console.log(repo.versions[version]);
-        } catch (err) {
-            this.Error("", "name", err);
+            const res = await fetch(`https://registry.npmjs.org/${this._config.name}`);
+            
+            if (res.status !== 200)
+                throw new Error(res.statusText);
+
+            console.log("link is Ok!");
+        } catch (error) {
+            this.Error("name", { error });
         }
     }
 
     private PathValidator() {
+        try {
+            console.log("node_modules validating...");
 
+            const node_modules_path = path.join("./", this._config.node_dir);
+            const node_modules = fs.existsSync(node_modules_path);
+            
+            if (!node_modules)
+                throw new Error("dir at" + this._config.node_dir + " is not exists.");
+            
+            console.log("node_modules is Ok!");
+        } catch (error) {
+            this.Error("node_dir", { error });
+        }
     }
 
-    private readonly init = () => {
-        this.LinkValidator();
+    public readonly init = async () => {
+        await this.LinkValidator();
+        this.PathValidator();
     };
 };
-
-(() => {
-    new Validator({
-        name: "f-formatter",
-        node_dir: "./node_modules/"
-    });
-})();
 
 export default Validator;
