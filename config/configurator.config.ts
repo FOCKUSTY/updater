@@ -8,46 +8,48 @@ import path from "path";
 import fs from "fs";
 
 class Configurator {
-    public constructor() {
-        this.init();
-    }
+	public constructor() {
+		this.init();
+	}
 
-    private readonly ReadConfig = (): Settings => {
-        const config_path = path.join("./", ".upcfg");
-        
-        if (!fs.existsSync(config_path))
-            throw new Error("config is not exists\nconfig must be on root dir with name \".upcfg\".");
+	private readonly ReadConfig = (): Settings => {
+		const config_path = path.join("./", ".upcfg");
 
-        const file = fs.readFileSync(config_path, "utf-8");
-        const config: Settings = JSON.parse(file);
+		if (!fs.existsSync(config_path))
+			throw new Error(
+				'config is not exists\nconfig must be on root dir with name ".upcfg".'
+			);
 
-        return config;
-    };
+		const file = fs.readFileSync(config_path, "utf-8");
+		const config: Settings = JSON.parse(file);
 
-    private readonly Load = async (config: Settings) => {
-        for (const lib of config.libs) {
-            const repoResponse = await fetch(`https://registry.npmjs.org/${lib}`);
-            
-            const repo = await repoResponse.json(); 
-            const { version } = await new Repo(lib).version("latest");
-    
-            const url = repo.versions[version].dist.tarball;
-            
-            new Downloader(url, lib, config.node_dir).execute();
-        }
-    };
+		return config;
+	};
 
-    private readonly init = async () => {
-        const config = this.ReadConfig();
+	private readonly Load = async (config: Settings) => {
+		for (const lib of config.libs) {
+			const repoResponse = await fetch(`https://registry.npmjs.org/${lib}`);
 
-        await new Validator(config).init();
+			const repo = await repoResponse.json();
+			const { version } = await new Repo(lib).version("latest");
 
-        await this.Load(config);
-    };
-};
+			const url = repo.versions[version].dist.tarball;
+
+			new Downloader(url, lib, config.node_dir).execute();
+		}
+	};
+
+	private readonly init = async () => {
+		const config = this.ReadConfig();
+
+		await new Validator(config).init();
+
+		await this.Load(config);
+	};
+}
 
 (() => {
-    new Configurator();
+	new Configurator();
 })();
 
 export default Configurator;
