@@ -24,16 +24,19 @@ class Validator {
 
     private async LinkValidator() {
         try {
-            console.log("link validating...");
+            for (const lib of this._config.libs) {
+                console.log(`link ${lib} is validating...`);
 
-            const res = await fetch(`https://registry.npmjs.org/${this._config.name}`);
-            
-            if (res.status !== 200)
-                throw new Error(res.statusText);
+                fetch(`https://registry.npmjs.org/${lib}`).then((res) => {
+                    if (res.status !== 200)
+                        throw new Error(res.statusText);
 
-            console.log("link is Ok!");
+                    console.log(`link ${lib} is Ok!`);
+                });
+            };
+
         } catch (error) {
-            this.Error("name", { error });
+            this.Error("libs", { error });
         }
     }
 
