@@ -34,9 +34,8 @@ class Unarchiver {
 		buffer: any,
 		type: "file" | "folder" | "any" = "any"
 	) => {
-		if (fs.existsSync(path)) return;
-
 		if (parse(path).ext === "" && type !== "file") {
+			if (fs.existsSync(path)) return;
 			fs.mkdirSync(path);
 		} else {
 			fs.writeFileSync(path, buffer);
@@ -54,22 +53,21 @@ class Unarchiver {
 
 		const extract = tar.extract();
 
+		let latestFile: [string, string] = [ "", "" ];
+		const datas: { [key: string]: string } = {};
+
 		extract.on("entry", (data, stream, cb) => {
 			stream.on("data", (buffer) => {
 				const path = join(data.name.replace("package/", ""));
 				const file = buffer.toString();
-
-				if (path.includes("\\")) {
-					let fullPath = folderPath;
-					const folders = path.split("\\");
-
-					for (const folder of folders) {
-						fullPath = join(fullPath, folder);
-						this.CreateFile(fullPath, file);
-					}
+				
+				if (latestFile[0] === path) {
+					datas[path] += file;
 				} else {
-					this.CreateFile(join(folderPath, path), buffer, "file");
-				}
+					datas[path] = file;
+				};
+
+				latestFile = [path, file];
 			});
 
 			stream.on("end", () => {
@@ -79,11 +77,29 @@ class Unarchiver {
 			stream.resume();
 		});
 
+		extract.on('finish', () => {
+			for (const path in datas) {
+				const file = datas[path];
+				
+				if (path.includes("\\")) {
+					let fullPath = folderPath;
+					const folders = path.split("\\");
+
+					for (const folder of folders) {
+						fullPath = join(fullPath, folder);
+						this.CreateFile(fullPath, file);
+					}
+				} else {
+					this.CreateFile(join(folderPath, path), file, "file");
+				};
+			};
+		});
+
 		setTimeout(() => {
 			fs.createReadStream(join("./", this._name + ".tgz"))
 				.pipe(zlib.createGunzip())
 				.pipe(extract);
-		}, 1000);
+		}, 500);
 	}
 }
 
