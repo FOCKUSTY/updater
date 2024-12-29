@@ -38,7 +38,7 @@ class Configurator {
     
             const url = repo.versions[version].dist.tarball;
             
-            new Downloader(url, lib);
+            new Downloader(url, lib).execute();
         }
     };
 
