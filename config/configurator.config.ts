@@ -2,11 +2,6 @@ import Validator from "./validator.config";
 import Downloader from "../managers/downloader.manager";
 import type { Settings } from "./types.config";
 
-import https from "https";
-
-import tar from 'tar-stream';
-import zlib from 'zlib';
-
 import Repo from "npm-api/lib/models/repo";
 
 import path from "path";
@@ -38,7 +33,7 @@ class Configurator {
     
             const url = repo.versions[version].dist.tarball;
             
-            new Downloader(url, lib).execute();
+            new Downloader(url, lib, config.node_dir).execute();
         }
     };
 
