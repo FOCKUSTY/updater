@@ -94,7 +94,7 @@ class Unarchiver {
 				}
 			}
 
-            this.Delete(join("./", this._name + ".tgz"))
+			this.Delete(join("./", this._name + ".tgz"));
 		});
 
 		setTimeout(() => {

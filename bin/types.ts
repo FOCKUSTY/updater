@@ -1,23 +1,18 @@
 import { Options as Yargs } from "yargs";
 
-type Key = "config"|"node_dir"|"libs";
+type Key = "config" | "node_dir" | "libs";
 
 interface Settings {
-    config: boolean,
-    node_dir: string,
-    libs: string[]
+	config: boolean;
+	node_dir: string;
+	libs: string[];
 }
 interface Options extends Yargs {
-    name: string;
+	name: string;
 }
-type AllOptions<data extends any = boolean|string|string[]> = Record<Key, data>;
+type AllOptions<data extends any = boolean | string | string[]> = Record<Key, data>;
 interface Command {
-    execute: (data: Settings) => void;
+	execute: (data: Settings) => void;
 }
 
-export {
-    Options,
-    AllOptions,
-    Command,
-    Key, Settings
-};
+export { Options, AllOptions, Command, Key, Settings };
