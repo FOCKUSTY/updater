@@ -8,12 +8,18 @@ import path from "path";
 import fs from "fs";
 
 class Configurator {
-	public constructor() {
+    private readonly _config?: Settings;
+
+	public constructor(config?: Settings) {
+        this._config = config;
 		this.init();
 	}
 
 	private readonly ReadConfig = (): Settings => {
-		const config_path = path.join("./", ".upcfg");
+		if (this._config)
+            return this._config;
+
+        const config_path = path.join("./", ".upcfg");
 
 		if (!fs.existsSync(config_path))
 			throw new Error(
