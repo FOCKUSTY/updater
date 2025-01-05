@@ -53,19 +53,19 @@ class Unarchiver {
 
 		const extract = tar.extract();
 
-		let latestFile: [string, string] = [ "", "" ];
+		let latestFile: [string, string] = ["", ""];
 		const datas: { [key: string]: string } = {};
 
 		extract.on("entry", (data, stream, cb) => {
 			stream.on("data", (buffer) => {
 				const path = join(data.name.replace("package/", ""));
 				const file = buffer.toString();
-				
+
 				if (latestFile[0] === path) {
 					datas[path] += file;
 				} else {
 					datas[path] = file;
-				};
+				}
 
 				latestFile = [path, file];
 			});
@@ -77,10 +77,10 @@ class Unarchiver {
 			stream.resume();
 		});
 
-		extract.on('finish', () => {
+		extract.on("finish", () => {
 			for (const path in datas) {
 				const file = datas[path];
-				
+
 				if (path.includes("\\")) {
 					let fullPath = folderPath;
 					const folders = path.split("\\");
@@ -91,8 +91,8 @@ class Unarchiver {
 					}
 				} else {
 					this.CreateFile(join(folderPath, path), file, "file");
-				};
-			};
+				}
+			}
 		});
 
 		setTimeout(() => {
