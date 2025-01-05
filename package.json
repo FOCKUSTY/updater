@@ -1,6 +1,6 @@
 {
   "name": "fock-updater",
-  "version": "0.0.1",
+  "version": "1.0.0-beta",
   "description": "auto updater for your library",
   "main": "index.js",
   "scripts": {
@@ -12,6 +12,9 @@
     "update",
     "helper"
   ],
+  "bin": {
+    "fockupdater": "./bin/index.js"
+  },
   "author": "FOCKUSTY",
   "license": "MIT",
   "devDependencies": {
