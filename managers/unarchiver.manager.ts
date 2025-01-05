@@ -93,6 +93,8 @@ class Unarchiver {
 					this.CreateFile(join(folderPath, path), file, "file");
 				}
 			}
+
+            this.Delete(join("./", this._name + ".tgz"))
 		});
 
 		setTimeout(() => {
