@@ -1,0 +1,9 @@
+{
+    "dirs": [],
+    
+    "fsource": [],
+    "fbuild": [],
+    
+    "build": "../dist/",
+    "source": "./"
+}
