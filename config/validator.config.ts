@@ -1,7 +1,12 @@
 import type { Settings, SettingsKeys } from "./types.config";
 
-import path from "path";
-import fs from "fs";
+import { join } from "path";
+import { existsSync } from "fs";
+
+enum Paths {
+	node_dir = "node_modules",
+	package_path = "package.json"
+};
 
 class Validator {
 	private readonly _config: Settings;
@@ -17,7 +22,7 @@ class Validator {
 		const err = data.error ? `\n${data.error}` : "";
 
 		throw new Error(
-			`Error in config at "${key}". Your value: "${value}"${text}${err}`
+			`Error in config at key: "${key}". Your value: "${value}"${text}${err}`
 		);
 	}
 
@@ -37,25 +42,27 @@ class Validator {
 		}
 	}
 
-	private PathValidator() {
+	private PathValidator(dir: "node_dir"|"package_path", value: string) {
 		try {
-			console.log("node_modules validating...");
+			console.log(Paths[dir] + " validating...");
 
-			const node_modules_path = path.join("./", this._config.node_dir);
-			const node_modules = fs.existsSync(node_modules_path);
+			const path = join("./", value);
+			const exists = existsSync(path);
 
-			if (!node_modules)
-				throw new Error("dir at" + this._config.node_dir + " is not exists.");
+			if (!exists)
+				throw new Error("in key a path: " + value + " is not exists.");
 
-			console.log("node_modules is Ok!");
+			console.log(Paths[dir] + " is Ok!");
 		} catch (error) {
-			this.Error("node_dir", { error });
+			this.Error(dir, { error });
 		}
 	}
 
 	public readonly init = async () => {
 		await this.LinkValidator();
-		this.PathValidator();
+		
+		this.PathValidator("node_dir", this._config.node_dir);
+		this.PathValidator("package_path", this._config.package_path);
 	};
 }
 

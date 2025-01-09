@@ -1,9 +1,10 @@
 import { Options as Yargs } from "yargs";
 
-type Key = "config" | "node_dir" | "libs";
+type Key = "config" | "node_dir" | "libs" | "package_path";
 
 interface Settings {
 	config: boolean;
+	package_path: string;
 	node_dir: string;
 	libs: string[];
 }

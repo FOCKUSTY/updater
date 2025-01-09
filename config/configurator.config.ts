@@ -1,5 +1,6 @@
 import Validator from "./validator.config";
 import Downloader from "../managers/downloader.manager";
+import PackageManager from "../managers/package.manager";
 import type { Settings } from "./types.config";
 
 import Repo from "npm-api/lib/models/repo";
@@ -9,9 +10,12 @@ import fs from "fs";
 
 class Configurator {
 	private readonly _config?: Settings;
+	private readonly _load: boolean;
 
-	public constructor(config?: Settings) {
+	public constructor(config?: Settings, load: boolean=true) {
 		this._config = config;
+		this._load = load;
+
 		this.init();
 	}
 
@@ -40,8 +44,14 @@ class Configurator {
 
 			const url = repo.versions[version].dist.tarball;
 
+			this.UpdatePackage(lib, version);
+
 			new Downloader(url, lib, config.node_dir).execute();
 		}
+	};
+
+	private readonly UpdatePackage = (name: string, version: string) => {
+		new PackageManager(this.config).execute(name, version);
 	};
 
 	private readonly init = async () => {
@@ -49,12 +59,12 @@ class Configurator {
 
 		await new Validator(config).init();
 
-		await this.Load(config);
+		if (this._load) await this.Load(config);
 	};
-}
 
-(() => {
-	new Configurator();
-})();
+	get config(): Settings {
+		return this._config || this.ReadConfig();
+	}
+}
 
 export default Configurator;

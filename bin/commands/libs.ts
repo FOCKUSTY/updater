@@ -1,14 +1,19 @@
-import { Settings } from "../types";
 import Configurator from "../../index";
 
 class Command {
-	public execute(data: Settings & { libs: string }) {
-		data.libs = JSON.parse(JSON.stringify(`["${data.libs}"]`, undefined, 4));
-
+	public execute(
+		data: {
+			config: boolean,
+			package_path: string,
+			node_dir: string,
+			libs: string
+		}
+	) {
 		if (data.libs.length === 0) return;
 
 		new Configurator({
-			libs: JSON.parse(data.libs),
+			libs: data.libs.split(","),
+			package_path: data.package_path,
 			node_dir: data.node_dir
 		});
 	}

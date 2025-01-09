@@ -7,9 +7,16 @@ import type { AllOptions, Command, Options, Key, Settings } from "./types";
 
 const usage = '\nUsage: fockupdater --node_dir "./node_modules" --libs [] to update';
 
-const keys: Key[] = ["config", "libs", "node_dir"];
+const keys: Key[] = ["config", "libs", "node_dir", "package_path"];
 
 const options: AllOptions<Options> = {
+	"package_path": {
+		name: "P",
+		alias: "package_path",
+		describe: "path of package.json",
+		boolean: false,
+		default: "./package.json"
+	},
 	"node_dir": {
 		name: "D",
 		alias: "node_dir",
@@ -22,7 +29,7 @@ const options: AllOptions<Options> = {
 		alias: "libs",
 		describe: "your libs to update",
 		boolean: false,
-		default: "a,b,c"
+		default: ""
 	},
 	"config": {
 		name: "C",
@@ -35,12 +42,14 @@ const options: AllOptions<Options> = {
 
 const settings: any = yargs
 	.usage(usage)
+	.option(options.package_path.name, options.package_path)
 	.option(options.libs.name, options.libs)
 	.option(options.node_dir.name, options.node_dir)
 	.option(options.config.name, options.config).argv;
 
 class Listener {
 	private readonly options: Settings = {
+		package_path: options.package_path.default,
 		config: options.config.default,
 		node_dir: options.node_dir.default,
 		libs: options.libs.default
@@ -51,7 +60,9 @@ class Listener {
 	}
 
 	private readonly init = () => {
-		for (const key of keys) (this.options as any)[key] = settings[key];
+		for (const key of keys) {
+			(this.options as any)[key] = settings[key]
+		};
 
 		this.execute();
 	};
