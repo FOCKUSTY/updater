@@ -20,7 +20,8 @@ class Configurator {
 	}
 
 	private readonly ReadConfig = (): Settings => {
-		if (this._config) return this._config;
+		if (this._config && this._config.libs.length !== 0)
+			return this._config;
 
 		const config_path = path.join("./", ".upcfg");
 
@@ -32,10 +33,19 @@ class Configurator {
 		const file = fs.readFileSync(config_path, "utf-8");
 		const config: Settings = JSON.parse(file);
 
+		if (this._config && this._config.libs.length === 0)
+			return {
+				...this._config,
+				libs: config.libs,
+			};
+
 		return config;
 	};
 
 	private readonly Load = async (config: Settings) => {
+		if (config.libs.length === 0)
+			return;
+		
 		for (const lib of config.libs) {
 			const repoResponse = await fetch(`https://registry.npmjs.org/${lib}`);
 

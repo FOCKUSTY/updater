@@ -9,10 +9,10 @@ class Command {
 			libs: string
 		}
 	) {
-		if (data.libs.length === 0) return;
+		const libs = data.libs.split(",");
 
 		new Configurator({
-			libs: data.libs.split(","),
+			libs: libs[0] === "" ? [] : libs,
 			package_path: data.package_path,
 			node_dir: data.node_dir
 		});
