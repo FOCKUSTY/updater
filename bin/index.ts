@@ -1,12 +1,10 @@
 #!/usr/bin/env node
 import yargs from "yargs";
 
-import path from "path";
-import fs from "fs";
-
 import ConfigCommand from "./commands/config";
+import Start from "./commands/libs";
 
-import type { AllOptions, Command, Options, Key, Settings } from "./types";
+import type { AllOptions, Options, Key, Settings } from "./types";
 
 const usage = '\nUsage: fockupdater update --libs "a,b,c" to update';
 
@@ -52,51 +50,45 @@ const settings: any = yargs
 			.option(options.libs.name, options.libs)
 			.option(options.node_dir.name, options.node_dir);
 
+		new Start().execute(new Listener(false).options);
+
 		return argv;
 	})
 	.option(options.config.name, options.config)
 	.parse();
 
-
 class Listener {
-	private readonly options: Settings = {
+	private readonly _options: Settings = {
 		package_path: options.package_path.default,
 		config: options.config.default,
 		node_dir: options.node_dir.default,
 		libs: options.libs.default
 	};
 
-	public constructor() {
+	private readonly _start: boolean;
+
+	public constructor(start: boolean=true) {
+		this._start = start;
 		this.init();
 	}
 
 	private readonly init = () => {
 		for (const key of keys) {
-			(this.options as any)[key] = settings[key]
+			(this._options as any)[key] = settings[key] || options[key].default;
 		};
 
-		this.execute();
+		if (this._start) this.execute();
 	};
 
 	private readonly execute = () => {
-		const folderPath = path.join(__dirname, "commands");
-		const folder = fs.readdirSync(folderPath);
-
-		if (this.options.config) {
+		if (this._options.config) {
 			return new ConfigCommand().execute();
 		}
-
-		for (const fileName of folder) {
-			const filePath = path.join(folderPath, fileName);
-			const name = path.parse(filePath).name as Key;
-
-			if (name === "config") continue;
-
-			const command: Command = new (require(`${filePath}`).default)();
-
-			command.execute(this.options);
-		}
 	};
+
+	public get options(): Settings {
+		return this._options;
+	}
 }
 
 (() => {
