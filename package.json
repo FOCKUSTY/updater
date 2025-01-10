@@ -1,6 +1,6 @@
 {
   "name": "fock-updater",
-  "version": "1.0.1-beta",
+  "version": "1.0.2-beta",
   "description": "auto updater for your library",
   "main": "index.js",
   "scripts": {

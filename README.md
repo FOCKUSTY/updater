@@ -38,12 +38,13 @@ npm install -g fock-updater@latest
 ```
 
 ## Инструкция
-- Создание config-файла: `fockupdater --config`
-- Запуск программы: `fockupdater` или `fockupdater --libs "a,b,c"`
+- Создание config-файла: `fockupdater --config` (Является не обязательным).
+- Запуск программы: `fockupdater` или `fockupdater --libs "a,b,c"`.
 
 ## config-файл
 ```json
 {
+    "package_path": "./package.json",
     "node_dir": "./node_modules",
     
     "libs": [
