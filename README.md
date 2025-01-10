@@ -1,6 +1,33 @@
 # updater
 Простой аппарат для автообновления ваших любимых библиотек !
 
+<p align="center">
+    <a href="https://github.com/FOCKUSTY/updater/blob/main/LICENSE">
+        <img alt="FOCKUSTY updater" src="https://img.shields.io/github/license/fockusty/updater?style=flat-square">
+    </a>
+    <a href="https://github.com/FOCKUSTY/updater">
+        <img alt="FOCKUSTY updater" src="https://img.shields.io/github/languages/top/fockusty/updater?style=flat-square">
+    </a>
+    <a href="https://github.com/FOCKUSTY/updater">
+        <img alt="FOCKUSTY updater" src="https://img.shields.io/github/stars/fockusty/updater?style=flat-square">
+    </a>
+</p>
+
+<p align="center">
+    <a href="https://github.com/FOCKUSTY/updater">
+        <img alt="FOCKUSTY updater" src="https://img.shields.io/badge/fockusty-updater-purple?style=flat-square">
+    </a>
+    <a href="https://img.shields.io/github/issues/fockusty/updater">
+        <img alt="updater version" src="https://img.shields.io/github/issues/fockusty/updater?style=flat-square">
+    </a>
+    <a href="https://www.npmjs.com/package/fock-updater">
+        <img alt="updater version" src="https://img.shields.io/npm/v/fock-updater.svg?style=flat-square">
+    </a>
+    <a href="https://www.npmjs.com/package/fock-updater">
+        <img alt="Weekly Downloads" src="https://img.shields.io/npm/dw/fock-updater?style=flat-square">
+    </a>
+</p>
+
 ## Скачивание
 ```
 npm install --save-dev fock-updater@latest
@@ -21,7 +48,7 @@ npm install -g fock-updater@latest
     
     "libs": [
         "f-formatter"
-    ]
+    ]updater
 }
 ```
 
@@ -38,3 +65,9 @@ npm install -g fock-updater@latest
 ## Другие вопросы
 - Что если моей проблемы тут нет? - Создайте [обсуждение](https://github.com/FOCKUSTY/updater/issues/new/choose), Вам обязательно помогут!
 - Что если мне нужно связаться с Вами? - Присоеднияйтесь к нам в [Discord](https://discord.gg/5MJrRjzPec)!
+
+<p align="center">
+    <a href="https://github.com/FOCKUSTY/updater">
+        <img alt="The Void" src="../assets/tvc.png">
+    </a>
+</p>
