@@ -4,7 +4,8 @@
   "description": "auto updater for your library",
   "main": "index.js",
   "scripts": {
-    "build": "tsc && fockbuilder -C"
+    "fbuilder": "node ./node_modules/fock-builder/bin/index.js --start",
+    "build": "tsc && npm run fbuilder"
   },
   "keywords": [
     "auto",
@@ -21,14 +22,13 @@
     "@types/node": "^22.10.2",
     "@types/tar-stream": "^3.1.3",
     "@types/yargs": "^17.0.33",
-    "fock-builder": "^1.0.2-beta",
     "nodemon": "^3.1.9",
     "prettier": "^3.4.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.2"
   },
   "dependencies": {
-    "f-formatter": "0.3.1",
+    "fock-builder": "^1.0.2-beta",
     "node": "^23.5.0",
     "npm-api": "^1.0.1",
     "tar-stream": "^3.1.7",
