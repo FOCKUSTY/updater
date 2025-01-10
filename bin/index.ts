@@ -3,9 +3,11 @@ import yargs from "yargs";
 import path from "path";
 import fs from "fs";
 
+import ConfigCommand from "./commands/config";
+
 import type { AllOptions, Command, Options, Key, Settings } from "./types";
 
-const usage = '\nUsage: fockupdater --node_dir "./node_modules" --libs [] to update';
+const usage = '\nUsage: fockupdater update --libs "a,b,c" to update';
 
 const keys: Key[] = ["config", "libs", "node_dir", "package_path"];
 
@@ -32,9 +34,9 @@ const options: AllOptions<Options> = {
 		default: ""
 	},
 	"config": {
-		name: "C",
+		name: "c",
 		alias: "config",
-		describe: "Config create",
+		describe: "config create",
 		boolean: true,
 		default: false
 	}
@@ -42,10 +44,18 @@ const options: AllOptions<Options> = {
 
 const settings: any = yargs
 	.usage(usage)
-	.option(options.package_path.name, options.package_path)
-	.option(options.libs.name, options.libs)
-	.option(options.node_dir.name, options.node_dir)
-	.option(options.config.name, options.config).argv;
+	.version()
+	.command("update", "start updating", (argv) => {
+		argv
+			.option(options.package_path.name, options.package_path)
+			.option(options.libs.name, options.libs)
+			.option(options.node_dir.name, options.node_dir);
+
+		return argv;
+	})
+	.option(options.config.name, options.config)
+	.parse();
+
 
 class Listener {
 	private readonly options: Settings = {
@@ -71,11 +81,15 @@ class Listener {
 		const folderPath = path.join(__dirname, "commands");
 		const folder = fs.readdirSync(folderPath);
 
+		if (this.options.config) {
+			return new ConfigCommand().execute();
+		}
+
 		for (const fileName of folder) {
 			const filePath = path.join(folderPath, fileName);
 			const name = path.parse(filePath).name as Key;
 
-			if (this.options.config && name !== "config") continue;
+			if (name === "config") continue;
 
 			const command: Command = new (require(`${filePath}`).default)();
 

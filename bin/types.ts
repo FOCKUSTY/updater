@@ -6,7 +6,7 @@ interface Settings {
 	config: boolean;
 	package_path: string;
 	node_dir: string;
-	libs: string[];
+	libs: string;
 }
 interface Options extends Yargs {
 	name: string;

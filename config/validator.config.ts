@@ -10,8 +10,10 @@ enum Paths {
 
 class Validator {
 	private readonly _config: Settings;
+	private readonly _logging: boolean;
 
-	public constructor(config: Settings) {
+	public constructor(config: Settings, logging: boolean = true) {
+		this._logging = logging;
 		this._config = config;
 	}
 
@@ -23,46 +25,62 @@ class Validator {
 
 		throw new Error(
 			`Error in config at key: "${key}". Your value: "${value}"${text}${err}`
-		);
+		)
 	}
 
 	private async LinkValidator() {
 		try {
 			for (const lib of this._config.libs) {
-				console.log(`link ${lib} is validating...`);
+				if (lib === "") return false;
+				
+				if (this._logging) console.log(`link ${lib} is validating...`);
 
 				fetch(`https://registry.npmjs.org/${lib}`).then((res) => {
 					if (res.status !== 200) throw new Error(res.statusText);
 
-					console.log(`link ${lib} is Ok!`);
+					if (this._logging) console.log(`link ${lib} is Ok!`);
 				});
 			}
+
+			return true;
 		} catch (error) {
-			this.Error("libs", { error });
+			if (this._logging) {
+				this.Error("libs", { error })
+				return false;
+			} else return false;
 		}
 	}
 
-	private PathValidator(dir: "node_dir"|"package_path", value: string) {
+	private PathValidator(dir: "node_dir"|"package_path", value: string): boolean {
 		try {
-			console.log(Paths[dir] + " validating...");
+			if (this._logging) console.log(Paths[dir] + " validating...");
 
 			const path = join("./", value);
 			const exists = existsSync(path);
 
-			if (!exists)
+			if (!exists && this._logging)
 				throw new Error("in key a path: " + value + " is not exists.");
-
-			console.log(Paths[dir] + " is Ok!");
+			else if (!this._logging)
+				return false;
+			else {
+				if (this._logging) console.log(Paths[dir] + " is Ok!");
+				return true;
+			}
 		} catch (error) {
-			this.Error(dir, { error });
+			if (this._logging) {
+				this.Error(dir, { error })
+				return false; 
+			} else return false;
 		}
 	}
 
 	public readonly init = async () => {
-		await this.LinkValidator();
+		if (await this.LinkValidator()) return false;
 		
-		this.PathValidator("node_dir", this._config.node_dir);
-		this.PathValidator("package_path", this._config.package_path);
+		if (this.PathValidator("node_dir", this._config.node_dir)) return false;
+		if (this.PathValidator("package_path", this._config.package_path)) return false;
+
+		return true;
 	};
 }
 

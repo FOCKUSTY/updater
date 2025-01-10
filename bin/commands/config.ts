@@ -1,13 +1,9 @@
-import { Settings } from "../types";
-
 import { join } from "path";
-import { existsSync, writeFileSync } from "fs";
+import { writeFileSync } from "fs";
 
 class Command {
-	public execute(data: Settings) {
+	public async execute() {
 		const path = join("./", ".upcfg");
-
-		if (existsSync(path)) return;
 
 		writeFileSync(
 			path,

@@ -9,7 +9,7 @@ class Command {
 			libs: string
 		}
 	) {
-		const libs = data.libs.split(",");
+		const libs = (data.libs || "").split(",");
 
 		new Configurator({
 			libs: libs[0] === "" ? [] : libs,
