@@ -48,7 +48,7 @@ npm install -g fock-updater@latest
     
     "libs": [
         "f-formatter"
-    ]updater
+    ]
 }
 ```
 
