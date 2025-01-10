@@ -68,6 +68,6 @@ npm install -g fock-updater@latest
 
 <p align="center">
     <a href="https://github.com/FOCKUSTY/updater">
-        <img alt="The Void" src="../assets/tvc.png">
+        <img alt="The Void" src="./assets/tvc.png">
     </a>
 </p>

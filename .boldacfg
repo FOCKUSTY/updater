@@ -1,8 +1,20 @@
 {
-    "dirs": [],
+    "dirs": [
+        "assets"
+    ],
     
-    "fsource": [],
-    "fbuild": [],
+    "fsource": [
+        [ "assets", "tvc.png" ],
+        "LICENSE",
+        "README.md",
+        "package.json"
+    ],
+    "fbuild": [
+        [ "assets", "tvc.png" ],
+        "LICENSE",
+        "README.md",
+        "package.json"
+    ],
     
     "build": "../dist/",
     "source": "./"
