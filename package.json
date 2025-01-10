@@ -1,6 +1,6 @@
 {
   "name": "fock-updater",
-  "version": "1.0.2-beta",
+  "version": "1.0.4-beta",
   "description": "auto updater for your library",
   "main": "index.js",
   "scripts": {
@@ -22,13 +22,13 @@
     "@types/node": "^22.10.2",
     "@types/tar-stream": "^3.1.3",
     "@types/yargs": "^17.0.33",
+    "fock-builder": "^1.0.2-beta",
     "nodemon": "^3.1.9",
     "prettier": "^3.4.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.2"
   },
   "dependencies": {
-    "fock-builder": "^1.0.2-beta",
     "node": "^23.5.0",
     "npm-api": "^1.0.1",
     "tar-stream": "^3.1.7",
