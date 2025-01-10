@@ -1,6 +1,6 @@
 {
   "name": "fock-updater",
-  "version": "1.0.4-beta",
+  "version": "1.0.5-beta",
   "description": "auto updater for your library",
   "main": "index.js",
   "scripts": {
@@ -18,6 +18,30 @@
   },
   "author": "FOCKUSTY",
   "license": "MIT",
+  "files": [
+    "index.js",
+    "index.d.ts",
+
+    "config/configutor.config.js",
+    "config/types.config.js",
+    "config/validator.config.js",
+    "config/configutor.config.d.ts",
+    "config/types.config.d.ts",
+    "config/validator.config.d.ts",
+
+    "bin/index.js",
+    "bin/types.js",
+    
+    "bin/commands/config.js",
+    "bin/commands/libs.js",
+
+    "managers/downloader.manager.js",
+    "managers/package.manager.js",
+    "managers/unarchiver.manager.js",
+    "managers/downloader.manager.d.ts",
+    "managers/package.manager.d.ts",
+    "managers/unarchiver.manager.d.ts"
+  ],
   "devDependencies": {
     "@types/node": "^22.10.2",
     "@types/tar-stream": "^3.1.3",
