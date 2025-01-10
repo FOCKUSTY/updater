@@ -1,6 +1,6 @@
 {
   "name": "fock-updater",
-  "version": "1.0.5-beta",
+  "version": "1.0.6-beta",
   "description": "auto updater for your library",
   "main": "index.js",
   "scripts": {
@@ -22,10 +22,10 @@
     "index.js",
     "index.d.ts",
 
-    "config/configutor.config.js",
+    "config/configurator.config.js",
     "config/types.config.js",
     "config/validator.config.js",
-    "config/configutor.config.d.ts",
+    "config/configurator.config.d.ts",
     "config/types.config.d.ts",
     "config/validator.config.d.ts",
 
