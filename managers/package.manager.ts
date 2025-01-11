@@ -38,16 +38,21 @@ class PackageManager {
         const type: "devDependencies"|"dependencies" = json.devDependencies[lib]
             ? "devDependencies"
             : "dependencies";
-      
+            
+        if (json[type][lib] && json[type][lib].includes(version))
+            return false;
+
         json[type][lib] = version;
 
         writeFileSync(this._config.package_path, JSON.stringify(json, undefined, 2), "utf-8");
+        
+        return true;
     };
 
     public readonly execute = (lib: string, version: string) => {
         const json: any = this.ReadFile();
         
-        this.Updater(json, lib, version);
+        return this.Updater(json, lib, version);
     }
 }
 

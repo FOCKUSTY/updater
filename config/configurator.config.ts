@@ -56,12 +56,15 @@ class Configurator {
 
 			this.UpdatePackage(lib, version);
 
+			// if (!this.UpdatePackage(lib, version))
+				// continue;
+
 			new Downloader(url, lib, config.node_dir).execute();
 		}
 	};
 
 	private readonly UpdatePackage = (name: string, version: string) => {
-		new PackageManager(this.config).execute(name, version);
+		return new PackageManager(this.config).execute(name, version);
 	};
 
 	private readonly init = async () => {

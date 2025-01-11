@@ -5,12 +5,14 @@ import tar from "tar-stream";
 import zlib from "zlib";
 
 class Unarchiver {
+	private readonly _full_name: string;
 	private readonly _name: string;
 	private readonly _path: string;
 
-	public constructor(folder: string, name: string) {
+	public constructor(folder: string, name: string, fullName?: string) {
 		this._path = join(folder);
 		this._name = name;
+		this._full_name = fullName || name;
 	}
 
 	private readonly Delete = (path: string) => {
@@ -42,8 +44,29 @@ class Unarchiver {
 		}
 	};
 
+	private readonly CreateFolders = () => {
+		if (!this._full_name.includes("/"))
+			return join(this._path, this._full_name);
+
+		const path = this._full_name.split(/[/\\]/);
+		let fullPath = this._path;
+
+		for (const index in path) {
+			const p = join(fullPath, path[index]);
+
+			if (!fs.existsSync(p))
+				fs.mkdirSync(p);
+	
+			fullPath = join(fullPath, path[index]);
+		};
+
+		return fullPath;
+	};
+
 	public execute() {
-		const folderPath = join(this._path, this._name);
+		const folderPath = this.CreateFolders();
+
+		console.log(folderPath, this._full_name);
 
 		if (fs.existsSync(folderPath)) {
 			this.Delete(folderPath);

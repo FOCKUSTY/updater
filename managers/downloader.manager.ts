@@ -15,7 +15,7 @@ class Downloader {
 	}
 
 	public execute() {
-		const file = fs.createWriteStream(this._name + ".tgz");
+		const file = fs.createWriteStream(this._name.replace(/[/\\]/, "-") + ".tgz");
 
 		https.get(this._url, (res) => {
 			console.log("downloading...");
@@ -25,7 +25,7 @@ class Downloader {
 				console.log("downloaded!");
 				file.close();
 
-				new Unarchiver(this._node_path, this._name).execute();
+				new Unarchiver(this._node_path, this._name.replace(/[/\\]/, "-"), this._name).execute();
 			});
 		});
 	}
