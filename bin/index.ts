@@ -50,7 +50,14 @@ const settings: any = yargs
 			.option(options.libs.name, options.libs)
 			.option(options.node_dir.name, options.node_dir);
 
-		new Start().execute(new Listener(false).options);
+		const ops: Settings = {
+			package_path: (argv.argv as any).package_path || options.package_path.default,
+			config: (argv.argv as any).config || options.config.default,
+			node_dir: (argv.argv as any).node_dir || options.node_dir.default,
+			libs: (argv.argv as any).libs || options.libs.default
+		};
+
+		new Start().execute(ops);
 
 		return argv;
 	})
