@@ -54,8 +54,9 @@ class Unarchiver {
 		for (const index in path) {
 			const p = join(fullPath, path[index]);
 
-			if (!fs.existsSync(p))
+			if (!fs.existsSync(p)) {
 				fs.mkdirSync(p);
+			}
 	
 			fullPath = join(fullPath, path[index]);
 		};
@@ -65,8 +66,6 @@ class Unarchiver {
 
 	public execute() {
 		const folderPath = this.CreateFolders();
-
-		console.log(folderPath, this._full_name);
 
 		if (fs.existsSync(folderPath)) {
 			this.Delete(folderPath);

@@ -54,10 +54,8 @@ class Configurator {
 
 			const url = repo.versions[version].dist.tarball;
 
-			this.UpdatePackage(lib, version);
-
-			// if (!this.UpdatePackage(lib, version))
-				// continue;
+			if (!this.UpdatePackage(lib, version))
+				continue;
 
 			new Downloader(url, lib, config.node_dir).execute();
 		}
