@@ -4,6 +4,8 @@ import fs from "fs";
 import tar from "tar-stream";
 import zlib from "zlib";
 
+import DependenciesManager from "./dependencies.manages";
+
 class Unarchiver {
 	private readonly _full_name: string;
 	private readonly _name: string;
@@ -117,6 +119,7 @@ class Unarchiver {
 			}
 
 			this.Delete(join("./", this._name + ".tgz"));
+			new DependenciesManager(this._full_name).execute();
 		});
 
 		setTimeout(() => {
