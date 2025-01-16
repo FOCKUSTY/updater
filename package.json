@@ -1,6 +1,6 @@
 {
   "name": "fock-updater",
-  "version": "1.4.0-beta",
+  "version": "1.4.1-beta",
   "description": "auto updater for your library",
   "main": "index.js",
   "scripts": {
@@ -30,9 +30,11 @@
     "bin/types.js",
     "bin/commands/config.js",
     "bin/commands/libs.js",
+    "managers/dependencies.manages.js",
     "managers/downloader.manager.js",
     "managers/package.manager.js",
     "managers/unarchiver.manager.js",
+    "managers/dependencies.manages.d.ts",
     "managers/downloader.manager.d.ts",
     "managers/package.manager.d.ts",
     "managers/unarchiver.manager.d.ts"
